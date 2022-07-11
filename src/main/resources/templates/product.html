@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BYSELL</title>
+</head>
+<body>
+<h1>HELLO</h1><hr>
+<h2>MY GOODS</h2>
+<table>
+    <tr>
+        <th>TITLE</th>
+        <th>PRICE</th>
+    </tr>
+    <tr th:each="prod : ${product}">
+        <td th:text="${prod.title}"></td>
+        <td th:text="${prod.price}" >руб</td>
+        <td><input type="submit" value="Подробнее" th:href="@{/product/{id}(id=${prod.id})}"></td>
+    </tr>
+</table>
+<h3>Create new prod</h3>
+<form action="/product/create" method="post">
+    Name of the advertisement : <input type="text" name="title"/><br><br>
+    Description of the advertisement : <input type="text" name="description"/><br><br>
+    Price : <input type="number" name="price"/><br><br>
+    City : <input type="text" name="city"/><br><br>
+    Name : <input type="text" name="author"/><br><br>
+    <input type="submit" value="Добавить товар"/>
+</form>
+</body>
+</html>
