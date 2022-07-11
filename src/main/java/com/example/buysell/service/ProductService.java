@@ -12,7 +12,7 @@ public class ProductService {
     private long ID=0;
     {
         products.add(new Product(++ID,"Iphone" , "perfect condition",23,"Minsk","Igor"));
-        products.add(new Product(++ID,"Ipad" , "bad condition",56,"Minsk","Igor"));
+        products.add(new Product(++ID,"Ipad" , "bad condition",56,"Minsk","Maks"));
         products.add(new Product(++ID,"Apple Watch" , "incognito",33,"Minsk","Slava"));
         products.add(new Product(++ID,"Ipad" , "bad condition",13,"Minsk","Solomon"));
     }
@@ -24,15 +24,13 @@ public class ProductService {
         product.setId(++ID);
         products.add(product);
     }
-    public void deleteProduct(Long id){
-        products.removeIf(product -> product.getId()==id);
+    public void deleteProduct(Long id) {
+        products.removeIf(product -> product.getId()==(id));
     }
 
-    public Product getProductById(Long id) {
-        for (Product product : products){
-            if (product.getId()==id);
-                return product;
-        }
-        return null;
+        public Product getProductById(Long id) {
+            return products.stream()
+                    .filter(product -> product.getId()==(id)).findFirst()
+                    .orElse(null);
     }
 }

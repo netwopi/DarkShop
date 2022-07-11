@@ -22,6 +22,10 @@ public class Product {
         this.author = author;
     }
 
+    public Product(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }

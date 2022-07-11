@@ -14,9 +14,9 @@
 <b th:text="${product.city}"> название товара </b><br>
 <b th:text="${product.author}"> название товара </b><br>
 <h3>Create new produkt</h3>
-<form action="/product/delete/product.id" method="post">
+<form th:action="@{'/product/delete/' + ${product.id}}" method="post">
+  <input type="submit" value="Удалить товар"/>
 
-  <input type="submit" value="Удалить"/>
 </form>
 </body>
 </html>

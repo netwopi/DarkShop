@@ -15,8 +15,10 @@
     </tr>
     <tr th:each="prod : ${product}">
         <td th:text="${prod.title}"></td>
-        <td th:text="${prod.price}" >руб</td>
-        <td><input type="submit" value="Подробнее" th:href="@{/product/{id}(id=${prod.id})}"></td>
+        <td th:text="${prod.price}  + руб"></td>
+        <td>
+            <a th:href="@{'/product/'+ ${prod.id}}" >подробнее</a>
+        </td>
     </tr>
 </table>
 <h3>Create new prod</h3>
