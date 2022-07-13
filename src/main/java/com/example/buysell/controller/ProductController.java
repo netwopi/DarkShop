@@ -1,7 +1,8 @@
 package com.example.buysell.controller;
 
 import com.example.buysell.models.Product;
-import com.example.buysell.service.ProductService;
+import com.example.buysell.services.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,17 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
 
-    public ProductController(ProductService productService){
-        this.productService = productService;
-    }
 
-
-    @GetMapping
-    public String product(Model model){
-        model.addAttribute("product" , productService.ListProducts());
+    @GetMapping("/")
+    public String product(@RequestParam(name = "title" , required = false) String title , Model model){
+        model.addAttribute("product" , productService.listProducts(title));
     return "product";
     }
 
