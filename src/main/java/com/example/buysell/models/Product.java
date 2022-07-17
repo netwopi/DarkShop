@@ -4,6 +4,9 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +28,21 @@ public class Product {
     @Column(name = "author")
     private String author;
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY ,
+            mappedBy = "product")
+    private List<Image> images = new ArrayList<>();
+    private Long previewImageId;
+    private LocalDateTime  dateOfCreated;
+
+    @PrePersist
+    private void init(){
+        dateOfCreated =LocalDateTime.now();
+    }
+    public void addImageToProduct(Image image){
+        image.setProduct(this);
+        images.add(image);
+
+    }
     public Product() {
     }
 
@@ -85,6 +103,43 @@ public class Product {
         this.author = author;
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public Long getPreviewImageId() {
+        return previewImageId;
+    }
+
+    public void setPreviewImageId(Long previewImageId) {
+        this.previewImageId = previewImageId;
+    }
+
+    public LocalDateTime getDateOfCreated() {
+        return dateOfCreated;
+    }
+
+    public void setDateOfCreated(LocalDateTime dateOfCreated) {
+        this.dateOfCreated = dateOfCreated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && price == product.price && title.equals(product.title) && description.equals(product.description) && city.equals(product.city) && author.equals(product.author) && images.equals(product.images) && previewImageId.equals(product.previewImageId) && dateOfCreated.equals(product.dateOfCreated);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, price, city, author, images, previewImageId, dateOfCreated);
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -94,19 +149,9 @@ public class Product {
                 ", price=" + price +
                 ", city='" + city + '\'' +
                 ", author='" + author + '\'' +
+                ", images=" + images +
+                ", previewImageId=" + previewImageId +
+                ", dateOfCreated=" + dateOfCreated +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id == product.id && price == product.price && title.equals(product.title) && description.equals(product.description) && city.equals(product.city) && author.equals(product.author);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, description, price, city, author);
     }
 }

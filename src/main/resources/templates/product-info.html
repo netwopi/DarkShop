@@ -8,6 +8,9 @@
 <body>
 <h1>HELLO</h1><hr>
 <h2>GOODS</h2>
+<tr th:each="img : ${images}">
+  <td><img th:src="@{'/images/' + ${img.id}}"></td><br><br>
+</tr>
 <b th:text="${product.title}"> название товара </b><br>
 <b th:text="${product.description}"> название товара </b><br>
 <b th:text="${product.price}"> название товара </b><br>
