@@ -33,4 +33,10 @@ public class UserController {
     public String securityUrl() {
         return "hello";
     }
+    @GetMapping("/logout")
+    public String logout() {
+        return "login";
+    }
 }
+
+
