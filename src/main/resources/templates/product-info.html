@@ -4,23 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <title>BYSELL</title>
+  <div th:insert="fragments/bootstrap :: bootstrap"></div>
 </head>
+
 <body>
-<h1>HELLO</h1><hr>
+<h1 th:text="${product.title}"></h1>
 <h2>GOODS</h2>
+
+
 <tr th:each="img : ${images}">
   <td><img th:src="@{'/images/' + ${img.id}}" height="100px"></td><br><br>
 </tr>
-<b th:text="${product.title}"> название товара </b><br>
-<b th:text="${product.description}"> название товара </b><br>
-<b th:text="${product.price}"> название товара </b><br>
-<b th:text="${product.city}"> название товара </b><br>
-<b th:text="${product.author}"> название товара </b><br>
-<h3>Create new produkt</h3>
-<form th:action="@{'/product/delete/' + ${product.id}}" method="post">
-  <input type="submit" value="Удалить товар"/>
 
-</form>
+<b th:text="${product.title}"> название товара </b><br>
+<b th:text="${product.description}"> описание товара </b><br>
+<b th:text="${product.price}"> цена </b><br>
+<b th:text="${product.city}"> город </b><br>
+<b th:text="${product.user.name}"> Имя  </b><br>
+<b th:text="${product.user.phoneNumber}"> Имя  </b><br>
 </body>
 </html>
 
