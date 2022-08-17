@@ -16,12 +16,12 @@
   <td><img th:src="@{'/images/' + ${img.id}}" height="100px"></td><br><br>
 </tr>
 
-<b th:text="${product.title}"> название товара </b><br>
-<b th:text="${product.description}"> описание товара </b><br>
-<b th:text="${product.price}"> цена </b><br>
-<b th:text="${product.city}"> город </b><br>
-<b th:text="${product.user.name}"> Имя  </b><br>
-<b th:text="${product.user.phoneNumber}"> Имя  </b><br>
+<b название товара th:text="${product.title}"> </b><br>
+<b описание товара th:text="${product.description}">  </b><br>
+<b цена th:text="${product.price}">  </b><br>
+<b город th:text="${product.city}">  </b><br>
+<b Имя th:text="${product.user.name}">  </b><br>
+<b Номер телефона th:text="${product.user.getPhoneNumber()}">   </b><br>
 </body>
 </html>
 
