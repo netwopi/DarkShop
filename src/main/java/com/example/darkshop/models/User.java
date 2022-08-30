@@ -1,10 +1,9 @@
-package com.example.buysell.models;
+package com.example.darkshop.models;
 
-import com.example.buysell.models.enums.Role;
+import com.example.darkshop.models.enums.Role;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,23 +19,28 @@ public class User implements UserDetails {
     private Long id;
     @Column(name = "email", unique = true)
     private String email;
+
     @Column(name = "phone_number")
     private String phoneNumber;
+
     @Column(name = "name")
     private String name;
     @Column(name = "active")
     private boolean active;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
     private Image avatar;
+
     @Column(name = "password", length = 1000)
     private String password;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"))
+    joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
+
     private Set<Role> roles = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany( orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "user")
     private List<Product> products = new ArrayList<>();
     private LocalDateTime dateOfCreated;
 
@@ -46,7 +50,14 @@ public class User implements UserDetails {
         dateOfCreated = LocalDateTime.now();
     }
 
+    public void addImageToUser(Image image){
+        image.setUser(this);
+    }
     // security
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ROLE_ADMIN);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,4 +1,4 @@
-package com.example.buysell;
+package com.example.darkshop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DARK_SHOP</title>
+    <div th:insert="fragments/bootstrap :: bootstrap"></div>
+</head>
+
+<body>
+<h2>Все ваши продукты</h2>
+<table table id="example" class="table table-bordered" style="width: 100%">
+
+    <tr>
+        <th>TITLE</th>
+        <th>PRICE</th>
+    </tr>
+    <tr th:each="prod : ${products}">
+        <td th:text="${prod.title}"></td>
+        <td th:text="${prod.price}  + руб"></td>
+        <td>
+            <a th:href="@{'/product/'+ ${prod.id}}" >подробнее</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

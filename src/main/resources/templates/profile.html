@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DARK_SHOP</title>
+    <div th:insert="fragments/bootstrap :: bootstrap"></div>
+</head>
+
+<td th:if="${user.isAdmin()}">
+    <form action="/admin" method="get">
+        <h3>Вы админинистратор:</h3>
+        <input type="submit" value="ADMIN PANEL"/>
+    </form>
+</td>
+
+<form action="/" method="get">
+    <input type="submit" value="На главную"/>
+</form>
+<form th:action="@{'/user/editing/' + ${user.id}}" method="get">
+    <input type="submit" value="Редактировать профиль"/>
+</form>
+<body>
+
+<b th:text="'Name :' + ${user.name}">  </b><br>
+<b th:text="'Number Phone :'+${user.getPhoneNumber()}">   </b><br>
+<b th:text="'Email :'+${user.email}">   </b><br>
+<h2>Все ваши продукты</h2>
+<table table id="example" class="table table-bordered" style="width: 100%">
+    <tr>
+        <th>TITLE</th>
+        <th>PRICE</th>
+        <th>DESCRIPTION</th>
+        <th>CITY</th>
+        <th>IMAGES</th>
+    </tr>
+    <tr th:each="prod : ${products}">
+        <td th:text="${prod.title}"></td>
+        <td th:text="${prod.price}  + руб"></td>
+        <td th:text="${prod.description}"></td>
+        <td th:text="${prod.city}"></td>
+        <td>
+            <a th:href="@{'/product/'+ ${prod.id}}" >подробнее</a>
+        </td>
+    </tr>
+
+</table>
+<td th:if="${user.email}">
+    <h3>Create new prod</h3>
+    <form action="/product/create" method="post" enctype="multipart/form-data">
+        Name of the advertisement : <input type="text" name="title"/><br><br>
+        Description of the advertisement : <input type="text" name="description"/><br><br>
+        Price : <input type="number" name="price"/><br><br>
+        City : <input type="text" name="city"/><br><br>
+        First photo : <input type="file" name="file1"/><br><br>
+        Second photo : <input type="file" name="file2"/><br><br>
+        Third photo :  <input type="file" name="file3"/><br><br>
+        <input type="hidden" th:name="_csrf" th:value="${_csrf.token}">
+        <input type="submit" value="Добавить товар"/>
+    </form>
+</td>
+
+</body>
+</html>
+

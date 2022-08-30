@@ -1,18 +1,23 @@
-package com.example.buysell.models;
+package com.example.darkshop.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "images")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private long id ;
+    private Long id;
     @Column(name = "name")
-    private String name ;
+    private String name;
     @Column(name = "originalFileName")
     private String originalFileName;
     @Column(name = "size")
@@ -21,9 +26,10 @@ public class Image {
     private String contentType;
     @Column(name = "isPreviewImage")
     private boolean isPreviewImage;
-    @Column(columnDefinition ="LONGBLOB")
+    @Lob
     private byte[] bytes;
-
-    @ManyToOne(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Product product;
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private User user;
 }

@@ -1,13 +1,12 @@
-package com.example.buysell.models.enums;
+package com.example.darkshop.models.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    ROLE_USER,ROLE_ADMIN;
+    ROLE_USER, ROLE_ADMIN;
 
     @Override
     public String getAuthority() {
         return name();
     }
-
 }

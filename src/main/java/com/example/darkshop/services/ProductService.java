@@ -1,10 +1,10 @@
-package com.example.buysell.services;
+package com.example.darkshop.services;
 
-import com.example.buysell.models.Image;
-import com.example.buysell.models.Product;
-import com.example.buysell.models.User;
-import com.example.buysell.repositories.ProductRepository;
-import com.example.buysell.repositories.UserRepository;
+import com.example.darkshop.models.Image;
+import com.example.darkshop.models.Product;
+import com.example.darkshop.models.User;
+import com.example.darkshop.repositories.ProductRepository;
+import com.example.darkshop.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,8 +22,15 @@ public class ProductService {
     private final UserRepository userRepository;
 
     public List<Product> listProducts(String title) {
-        if (title != null) return productRepository.findByTitle(title);
-        return productRepository.findAll();
+        if (title != null) {
+            return productRepository.findByTitleStartingWith(title);
+        } else if (title != null) {
+            return productRepository.findByTitleEndingWith(title);
+        }else if (title != null) {
+            return productRepository.findByTitleContaining(title);
+        }else {
+            return productRepository.findAll();
+        }
     }
 
     public void saveProduct(Principal principal, Product product, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
@@ -66,8 +72,19 @@ public class ProductService {
         return image;
     }
 
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+    public void deleteProduct(User user, Long id) {
+        Product product = productRepository.findById(id)
+                .orElse(null);
+        if (product != null) {
+            if (product.getUser().getId().equals(user.getId())) {
+                productRepository.delete(product);
+                log.info("Product with id = {} was deleted", id);
+            } else {
+                log.error("User: {} haven't this product with id = {}", user.getEmail(), id);
+            }
+        } else {
+            log.error("Product with id = {} is not found", id);
+        }
     }
 
     public Product getProductById(Long id) {

@@ -3,25 +3,30 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>BYSELL</title>
+  <title>DARK_SHOP</title>
   <div th:insert="fragments/bootstrap :: bootstrap"></div>
 </head>
 
 <body>
-<h1 th:text="${product.title}"></h1>
-<h2>GOODS</h2>
-
+<h1 th:text="'-------------> ' + ${product.title} + ' <-------------'"></h1>
 
 <tr th:each="img : ${images}">
   <td><img th:src="@{'/images/' + ${img.id}}" height="100px"></td><br><br>
 </tr>
 
-<b название товара th:text="${product.title}"> </b><br>
-<b описание товара th:text="${product.description}">  </b><br>
-<b цена th:text="${product.price}">  </b><br>
-<b город th:text="${product.city}">  </b><br>
-<b Имя th:text="${product.user.name}">  </b><br>
-<b Номер телефона th:text="${product.user.getPhoneNumber()}">   </b><br>
+<b th:text="'Product Name :' + ${product.title}"> </b><br>
+<b th:text="'Product description :' + ${product.description}">  </b><br>
+<b th:text="'Price :' + ${product.price}">  </b><br>
+<b th:text="'City :'+${product.city}">  </b><br>
+<td>
+  <a th:href="@{'/user/'+ ${product.user.id}}" >Продавец</a>
+</td>
+<td th:if="${user.id} == ${product.user.id}">
+  <form th:action="@{'/product/delete/'+${product.id}}"  method="post">
+    <input type="hidden" th:name="${_csrf}" th:value="${_csrf.token}">
+    <input type="submit" value="удалить">
+  </form>
+</td>
 </body>
 </html>
 

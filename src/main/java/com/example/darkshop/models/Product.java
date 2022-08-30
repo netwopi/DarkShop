@@ -1,4 +1,4 @@
-package com.example.buysell.models;
+package com.example.darkshop.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +27,9 @@ public class Product {
     private int price;
     @Column(name = "city")
     private String city;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "product")
+    mappedBy = "product")
     private List<Image> images = new ArrayList<>();
     private Long previewImageId;
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
