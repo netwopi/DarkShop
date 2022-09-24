@@ -27,9 +27,8 @@ public class Product {
     private int price;
     @Column(name = "city")
     private String city;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-    mappedBy = "product")
+            mappedBy = "product")
     private List<Image> images = new ArrayList<>();
     private Long previewImageId;
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
@@ -41,7 +40,6 @@ public class Product {
     private void init() {
         dateOfCreated = LocalDateTime.now();
     }
-
 
     public void addImageToProduct(Image image) {
         image.setProduct(this);

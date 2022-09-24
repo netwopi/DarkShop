@@ -28,8 +28,9 @@ public class Image {
     private boolean isPreviewImage;
     @Lob
     private byte[] bytes;
+
+/*    @OneToOne(mappedBy = "avatar")
+    private User user;*/
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Product product;
-    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    private User user;
 }

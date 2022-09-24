@@ -7,10 +7,7 @@ import com.example.darkshop.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,6 +17,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final ProductService productService;
 
     @GetMapping("/login")
     public String login(Principal principal, Model model) {
@@ -30,8 +28,8 @@ public class UserController {
     @GetMapping("/profile")
     public String profile(Principal principal,Model model) {
         User user = userService.getUserByPrincipal(principal);
-        model.addAttribute("user", user);
         model.addAttribute("products", user.getProducts());;
+        model.addAttribute("user", productService.getUserByPrincipal(principal));
         return "profile";
     }
 
@@ -61,17 +59,18 @@ public class UserController {
 
     }
     @GetMapping("/user/editing/{user}")
-    public String user(User user,Model model, Principal principal){
-        model.addAttribute("images", user.getAvatar());
+    public String userEding (User user,Model model, Principal principal){
         model.addAttribute("userByPrincipal", userService.getUserByPrincipal(principal));
+/*        model.addAttribute("images", user.getAvatar());*/
         model.addAttribute("user",user);
         return "profile-editing";
     }
 
-    @PostMapping("/user/editing/{id}")
-    public String createUser(User user){
-        userService.saveUser(user);
+    @PostMapping ("/create/{id}")
+    public String createUser(User user,@PathVariable Long id,@RequestParam("file4") MultipartFile file4) throws IOException {
+        userService.updateUser(user,id,file4);
         System.out.println("2" + user);
-        return "profile-editing";
+        System.out.println("3" + file4);
+        return "redirect:/login";
     }
 }

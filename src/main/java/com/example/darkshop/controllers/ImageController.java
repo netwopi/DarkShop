@@ -1,5 +1,6 @@
 package com.example.darkshop.controllers;
 
+
 import com.example.darkshop.models.Image;
 import com.example.darkshop.repositories.ImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,6 @@ public class ImageController {
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .contentLength(image.getSize())
                 .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
+
     }
 }

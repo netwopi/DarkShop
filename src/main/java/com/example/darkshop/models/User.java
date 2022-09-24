@@ -1,7 +1,9 @@
 package com.example.darkshop.models;
 
 import com.example.darkshop.models.enums.Role;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +14,8 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,28 +23,25 @@ public class User implements UserDetails {
     private Long id;
     @Column(name = "email", unique = true)
     private String email;
-
     @Column(name = "phone_number")
     private String phoneNumber;
-
     @Column(name = "name")
     private String name;
     @Column(name = "active")
     private boolean active;
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinColumn(name = "image_id")
-    private Image avatar;
+/*    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image avatar;*/
 
     @Column(name = "password", length = 1000)
     private String password;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
-    joinColumns = @JoinColumn(name = "user_id"))
+            joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-
     private Set<Role> roles = new HashSet<>();
-    @OneToMany( orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "user")
     private List<Product> products = new ArrayList<>();
     private LocalDateTime dateOfCreated;
 
@@ -50,9 +51,11 @@ public class User implements UserDetails {
         dateOfCreated = LocalDateTime.now();
     }
 
-    public void addImageToUser(Image image){
+/*    public void addImageToUser(Image image) {
         image.setUser(this);
-    }
+            setAvatar(image);
+    }*/
+
     // security
 
     public boolean isAdmin() {

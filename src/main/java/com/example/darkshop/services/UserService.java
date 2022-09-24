@@ -1,5 +1,6 @@
 package com.example.darkshop.services;
 
+
 import com.example.darkshop.models.Image;
 import com.example.darkshop.models.User;
 import com.example.darkshop.models.enums.Role;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.IOException;
 import java.security.Principal;
@@ -83,25 +85,51 @@ public class UserService {
             log.info("Delete user with id = {}; email: {}", user.getId(), user.getEmail());
         }
     }
+    public void updateUser(User user , Long id , MultipartFile file4) throws IOException {
+        Image image4;
+        User userFindId = userRepository.findById(id).orElseThrow(null);
+        if (user.getName().length() != 0){
+            userFindId.setName(user.getName());
+        }else {
+            userFindId.setName(userFindId.getName());
+        }
+
+        if (user.getEmail().length() != 0){
+            userFindId.setEmail(user.getEmail());
+        }else {
+            userFindId.setEmail(userFindId.getEmail());
+        }
+
+        if (user.getPhoneNumber().length() != 0){
+            userFindId.setPhoneNumber(user.getPhoneNumber());
+        }else {
+            userFindId.setPhoneNumber(userFindId.getPhoneNumber());
+        }
+
+        if (user.getPassword().length() != 0){
+            userFindId.setPassword(passwordEncoder.encode(user.getPassword()));
+        }else {
+            userFindId.setPassword(userFindId.getPassword());
+        }
+/*           image4 = toImageEntity(file4);
+            userFindId.addImageToUser(image4);
+            System.out.println("2-");*/
+
+        userFindId.setActive(true);
+        userFindId.getRoles().add(Role.ROLE_ADMIN);
+        userFindId.setDateOfCreated(LocalDateTime.now());
+        log.info("Saving  User with email: {}", userFindId.getEmail());
+        userRepository.save(userFindId);
+    }
+
     private Image toImageEntity(MultipartFile file) throws IOException {
-        Image image = new Image();
-        image.setName(file.getName());
-        image.setOriginalFileName(file.getOriginalFilename());
-        image.setContentType(file.getContentType());
-        image.setSize(file.getSize());
-        image.setBytes(file.getBytes());
-        return image;
+        Image imageAvatar = new Image();
+        imageAvatar.setName(file.getName());
+        imageAvatar.setOriginalFileName(file.getOriginalFilename());
+        imageAvatar.setContentType(file.getContentType());
+        imageAvatar.setSize(file.getSize());
+        imageAvatar.setBytes(file.getBytes());
+        return imageAvatar;
     }
 
-    public boolean saveUser(User user) {
-        String email = user.getEmail();
-        user.setActive(true);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.getRoles().add(Role.ROLE_ADMIN);
-        user.setDateOfCreated(LocalDateTime.now());
-        log.info("Saving new User with email: {}", email);
-        userRepository.save(user);
-        return true;
-
-    }
 }

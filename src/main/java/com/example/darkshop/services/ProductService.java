@@ -33,7 +33,8 @@ public class ProductService {
         }
     }
 
-    public void saveProduct(Principal principal, Product product, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
+    public void saveProduct(Principal principal, Product product, MultipartFile file1, MultipartFile file2
+            , MultipartFile file3) throws IOException {
         product.setUser(getUserByPrincipal(principal));
         Image image1;
         Image image2;
@@ -84,10 +85,10 @@ public class ProductService {
             }
         } else {
             log.error("Product with id = {} is not found", id);
-        }
-    }
+        }    }
 
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
+
 }
