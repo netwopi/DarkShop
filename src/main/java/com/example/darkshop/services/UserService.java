@@ -9,16 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,7 +39,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void banUser(Long id) {
+    public void banUser(Integer id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
             if (user.isActive()) {
@@ -75,7 +71,7 @@ public class UserService {
         return userRepository.findByEmail(principal.getName());
     }
 
-    public void userDelete(Long id) {
+    public void userDelete(Integer id) {
         User user = userRepository.findById(id).orElseThrow(null);
         if (user != null) {
             userRepository.delete(user);
@@ -85,8 +81,7 @@ public class UserService {
             log.info("Delete user with id = {}; email: {}", user.getId(), user.getEmail());
         }
     }
-    public void updateUser(User user , Long id , MultipartFile file4) throws IOException {
-        Image image4;
+    public void updateUser(User user , Integer id){
         User userFindId = userRepository.findById(id).orElseThrow(null);
         if (user.getName().length() != 0){
             userFindId.setName(user.getName());
@@ -114,22 +109,10 @@ public class UserService {
 /*           image4 = toImageEntity(file4);
             userFindId.addImageToUser(image4);
             System.out.println("2-");*/
-
         userFindId.setActive(true);
         userFindId.getRoles().add(Role.ROLE_ADMIN);
         userFindId.setDateOfCreated(LocalDateTime.now());
         log.info("Saving  User with email: {}", userFindId.getEmail());
         userRepository.save(userFindId);
     }
-
-    private Image toImageEntity(MultipartFile file) throws IOException {
-        Image imageAvatar = new Image();
-        imageAvatar.setName(file.getName());
-        imageAvatar.setOriginalFileName(file.getOriginalFilename());
-        imageAvatar.setContentType(file.getContentType());
-        imageAvatar.setSize(file.getSize());
-        imageAvatar.setBytes(file.getBytes());
-        return imageAvatar;
-    }
-
 }

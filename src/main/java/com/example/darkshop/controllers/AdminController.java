@@ -4,6 +4,7 @@ import com.example.darkshop.models.User;
 import com.example.darkshop.models.enums.Role;
 import com.example.darkshop.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.type.UUIDBinaryType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/user/ban/{id}")
-    public String userBan(@PathVariable("id") Long id) {
+    public String userBan(@PathVariable("id") Integer id) {
         userService.banUser(id);
         return "redirect:/admin";
     }
@@ -45,7 +47,7 @@ public class AdminController {
         return "redirect:/admin";
     }
     @GetMapping ("admin/user/delete/{id}")
-    public String deleteUser(@PathVariable("id")Long id){
+    public String deleteUser(@PathVariable("id")Integer id){
         userService.userDelete(id);
         return "redirect:/admin";
     }

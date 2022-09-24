@@ -5,7 +5,7 @@
     <title>DARK_SHOP</title>
     <div th:insert="fragments/bootstrap :: bootstrap"></div>
 </head>
-<body style="background-color: #508bfc">
+<body style="background-color: #eef0f3">
 <h1>Stolen goods from around the world.</h1>
     <th>
         <td th:if="${user.email}">
@@ -45,7 +45,7 @@
                             <a th:href="@{'/product/'+ ${prod.id}}" class="product-link">
                                 <div class="card">
 
-                                    <img th:src="@{'/images/'+ ${prod.getPreviewImageId()}} "
+                                    <img th:src="@{'/images/'+ ${prod.previewImageId}} "
                                         class="card-img-top">
                                     <div class="card-body">
                                         <td th:text="${prod.title}"></td><br>

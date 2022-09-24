@@ -1,6 +1,5 @@
 package com.example.darkshop.controllers;
 
-import com.example.darkshop.models.Product;
 import com.example.darkshop.models.User;
 import com.example.darkshop.services.ProductService;
 import com.example.darkshop.services.UserService;
@@ -8,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -58,19 +56,16 @@ public class UserController {
 
 
     }
-    @GetMapping("/user/editing/{user}")
-    public String userEding (User user,Model model, Principal principal){
+    @GetMapping("/editing/{user}")
+    public String userEditing(User user, Model model, Principal principal){
         model.addAttribute("userByPrincipal", userService.getUserByPrincipal(principal));
-/*        model.addAttribute("images", user.getAvatar());*/
         model.addAttribute("user",user);
         return "profile-editing";
     }
 
     @PostMapping ("/create/{id}")
-    public String createUser(User user,@PathVariable Long id,@RequestParam("file4") MultipartFile file4) throws IOException {
-        userService.updateUser(user,id,file4);
-        System.out.println("2" + user);
-        System.out.println("3" + file4);
+    public String createUser(User user, @PathVariable Integer id) throws IOException {
+        userService.updateUser(user,id);
         return "redirect:/login";
     }
 }

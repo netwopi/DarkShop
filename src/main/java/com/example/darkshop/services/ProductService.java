@@ -5,10 +5,12 @@ import com.example.darkshop.models.Product;
 import com.example.darkshop.models.User;
 import com.example.darkshop.repositories.ProductRepository;
 import com.example.darkshop.repositories.UserRepository;
+import com.example.darkshop.utill.ImageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -17,11 +19,11 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ProductService {
+public class ProductService extends ImageUtils {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    public List<Product> listProducts(String title) {
+    public List<Product> findAll(String title) {
         if (title != null) {
             return productRepository.findByTitleStartingWith(title);
         } else if (title != null) {
@@ -33,7 +35,9 @@ public class ProductService {
         }
     }
 
-    public void saveProduct(Principal principal, Product product, MultipartFile file1, MultipartFile file2
+
+    @Transactional
+    public void save(Principal principal, Product product, MultipartFile file1, MultipartFile file2
             , MultipartFile file3) throws IOException {
         product.setUser(getUserByPrincipal(principal));
         Image image1;
@@ -62,18 +66,8 @@ public class ProductService {
         if (principal == null) return new User();
         return userRepository.findByEmail(principal.getName());
     }
-
-    private Image toImageEntity(MultipartFile file) throws IOException {
-        Image image = new Image();
-        image.setName(file.getName());
-        image.setOriginalFileName(file.getOriginalFilename());
-        image.setContentType(file.getContentType());
-        image.setSize(file.getSize());
-        image.setBytes(file.getBytes());
-        return image;
-    }
-
-    public void deleteProduct(User user, Long id) {
+    
+    public void delete(User user, Integer id) {
         Product product = productRepository.findById(id)
                 .orElse(null);
         if (product != null) {
@@ -87,7 +81,7 @@ public class ProductService {
             log.error("Product with id = {} is not found", id);
         }    }
 
-    public Product getProductById(Long id) {
+    public Product getProductById(Integer id) {
         return productRepository.findById(id).orElse(null);
     }
 

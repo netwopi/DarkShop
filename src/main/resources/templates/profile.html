@@ -17,7 +17,7 @@
 <form action="/" method="get">
     <input type="submit" value="На главную"/>
 </form>
-<form th:action="@{'/user/editing/' + ${user.id}}" method="get">
+<form th:action="@{'/editing/' + ${user.id}}" method="get">
     <input type="submit" value="Редактировать профиль"/>
 </form>
 <body>
