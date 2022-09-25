@@ -43,7 +43,8 @@ public class ProductController {
     @PostMapping("/product/create")
     public String create(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
                                 @RequestParam("file3") MultipartFile file3, Product product, Principal principal) throws IOException {
-        productService.save(principal, product, file1, file2, file3);
+        productService.savaImage(product,file1, file2, file3);
+        productService.save(principal, product);
         return "redirect:/profile";
     }
 
