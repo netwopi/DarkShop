@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
 
@@ -69,10 +72,17 @@ public class ProductService extends ImageUtils  {
         Image image1;
         Image image2;
         Image image3;
-
+        Path path = Paths.get(
+                "C:\\Users\\nikit\\IdeaProjects\\darkshop\\src\\main\\resources\\static\\img\\no_photo.jpg");
+        byte[] arr = Files.readAllBytes(path);
         if(file1.getSize() == 0 && file2.getSize() == 0 && file3.getSize() == 0){
             Image image4 = new Image();
             image4.setOriginalFileName("no_photo.jpg");
+            image4.setContentType("image/jpeg");
+            image4.setBytes(arr);
+            image4.setPreviewImage(true);
+            image4.setSize(path.toFile().length());
+            image4.setName(image4.getName());
             product.addImageToProduct(image4);
             }
         if (file1.getSize() != 0) {

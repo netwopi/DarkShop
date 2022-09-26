@@ -6,13 +6,8 @@
     <div th:insert="fragments/bootstrap :: bootstrap"></div>
 </head>
 <body style="background-color: #eef0f3">
+<center>
 <h1>Stolen goods from around the world.</h1>
-    <th>
-        <td th:if="${user.email}">
-            <h3>Имя пользователя: <i th:text="${user.name}"></i></h3>
-        </td>
-    </th>
-
     <div class="btn-group" role="group" aria-label="Basic outlined example">
         <td th:if="${user.email}">
             <form action="/profile" method="get">
@@ -32,12 +27,21 @@
             </form>
         </td>
     </div>
-
-
-<form action="/" method="get">
-    <input type="text" class="btn btn-dark" name="searchWord">Поиск по названию объявления: <br>
-    <input type="submit" class="btn btn-dark" value="Поиск"/>
-</form><br>
+</center>
+<center>
+    <form class="row g-3">
+        <div class="col-auto">
+            <label for="staticEmail2" class="visually-hidden">Поиск по названию объявления:</label>
+            <input type="text" readonly class="form-control-plaintext" id="staticEmail2" >
+        </div>
+        <div class="col-auto">
+            <input type="text"  name="searchWord"><br>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Поиск</button>
+        </div>
+    </form>
+</center>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="card-columns">
