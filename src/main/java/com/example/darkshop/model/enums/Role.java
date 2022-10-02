@@ -1,4 +1,4 @@
-package com.example.darkshop.models.enums;
+package com.example.darkshop.model.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

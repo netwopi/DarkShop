@@ -1,6 +1,6 @@
-package com.example.darkshop.services;
+package com.example.darkshop.service;
 
-import com.example.darkshop.repositories.UserRepository;
+import com.example.darkshop.repositori.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

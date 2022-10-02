@@ -17,14 +17,15 @@
 <form action="/" method="get">
     <input type="submit" value="На главную"/>
 </form>
-<form th:action="@{'/editing/' + ${user.id}}" method="get">
+<form th:action="@{/user/editing/{id}(id=*{user.id})}" th:method="put">
+    <input type="hidden" name="_method" value="Editing "/>
     <input type="submit" value="Редактировать профиль"/>
 </form>
 <body>
 
-<b th:text="'Name :' + ${user.name}">  </b><br>
-<b th:text="'Number Phone :'+${user.getPhoneNumber()}">   </b><br>
-<b th:text="'Email :'+${user.email}">   </b><br>
+<b th:text="'Name :' + ${user.name}"> </b><br>
+<b th:text="'Number Phone :'+${user.getPhoneNumber()}"> </b><br>
+<b th:text="'Email :'+${user.email}"> </b><br>
 <h2>Все ваши продукты</h2>
 <table table id="example" class="table table-bordered" style="width: 100%">
     <tr>
@@ -40,21 +41,21 @@
         <td th:text="${prod.description}"></td>
         <td th:text="${prod.city}"></td>
         <td>
-            <a th:href="@{'/product/'+ ${prod.id}}" >подробнее</a>
+            <a th:href="@{'/products/'+ ${prod.id}}">подробнее</a>
         </td>
     </tr>
 
 </table>
 <td th:if="${user.email}">
     <h3>Create new prod</h3>
-    <form action="/product/create" method="post" enctype="multipart/form-data">
+    <form action="/products" method="post" enctype="multipart/form-data">
         Name of the advertisement : <input type="text" name="title"/><br><br>
         Description of the advertisement : <input type="text" name="description"/><br><br>
         Price : <input type="number" name="price"/><br><br>
         City : <input type="text" name="city"/><br><br>
         First photo : <input type="file" name="file1"/><br><br>
         Second photo : <input type="file" name="file2"/><br><br>
-        Third photo :  <input type="file" name="file3"/><br><br>
+        Third photo : <input type="file" name="file3"/><br><br>
         <input type="hidden" th:name="_csrf" th:value="${_csrf.token}">
         <input type="submit" value="Добавить товар"/>
     </form>

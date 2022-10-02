@@ -1,8 +1,7 @@
-package com.example.darkshop.controllers;
+package com.example.darkshop.controller;
 
-
-import com.example.darkshop.models.Image;
-import com.example.darkshop.repositories.ImageRepository;
+import com.example.darkshop.model.Image;
+import com.example.darkshop.repositori.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;

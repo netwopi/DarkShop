@@ -1,6 +1,6 @@
-package com.example.darkshop.repositories;
+package com.example.darkshop.repositori;
 
-import com.example.darkshop.models.User;
+import com.example.darkshop.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

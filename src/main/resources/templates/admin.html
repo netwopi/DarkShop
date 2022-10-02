@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>DARK_SHOP</title>
@@ -28,19 +27,26 @@
             <span th:text="${role}"/>
         </td>
         <td>
-            <form th:action="@{'/admin/user/ban/' + ${user.id}}" method="post">
-            <input type="hidden" th:name="${_csrf}" th:value="${_csrf.token}">
-            <input type="submit" value="Ban">
+            <form th:action="@{'/admin/user/ban/' + ${user.id}}">
+                <input type="hidden" th:name="${_csrf}" th:value="${_csrf.token}">
+                <input type="submit" value="Ban">
             </form>
         </td>
         <td>
-            <a th:href="@{'/admin/user/edit/' + ${user.id}}">Editing</a>
+            <form th:action="@{/admin/user/edit/{id}(id=*{user.id})}" th:method="put">
+                <input type="hidden" name="_method" value="Editing"/>
+                <input type="submit" value="Editing"/>
+            </form>
+        </td>
+
+        <td>
+            <form th:action="@{/admin/user/delete/{id}(id=*{user.id})}" th:method="delete">
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="submit" value="delete"/>
+            </form>
         </td>
         <td>
-            <a th:href="@{'admin/user/delete/' + ${user.id}}">Delete</a>
-        </td>
-        <td>
-            <a th:href="@{'/user/'+ ${user.id}}" >Продавец</a>
+            <a th:href="@{'/user/'+ ${user.id}}">Продавец</a>
         </td>
 
     </tr>

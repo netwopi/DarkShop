@@ -8,21 +8,22 @@
 </head>
 
 <body>
-<b th:text="'Name :' + ${user.name}">  </b><br>
-<b th:text="'Number Phone :'+${user.phoneNumber}">   </b><br>
-<b th:text="'Email :'+${user.email}">   </b><br>
+<b th:text="'Name :' + ${user.name}"> </b><br>
+<b th:text="'Number Phone :'+${user.phoneNumber}"> </b><br>
+<b th:text="'Email :'+${user.email}"> </b><br>
 <!--
 <td th:if="${images}">
     <img th:src="@{'/image/'+ ${user.avatar.id}}" height="100px" >
 </td>
 -->
 
-<form th:action="@{'/create/' + ${user.id}}" method="post" enctype="multipart/form-data">
+<form th:action="@{/create/{id}(id=*{user.id})}" th:method="put" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="Editing "/>
     Name : <input type="text" name="name"/><br><br>
     Email : <input type="email" name="email"/><br><br>
     Phone Number : <input type="text" name="phoneNumber"/><br><br>
     Password : <input type="password" name="password"/><br><br>
-<!--    First photo : <input type="file" name="file4"/><br><br>-->
+    <!--    First photo : <input type="file" name="file4"/><br><br>-->
     <input type="hidden" th:name="_csrf" th:value="${_csrf.token}">
     <input type="submit" value="Изменить"/>
 </form>

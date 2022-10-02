@@ -1,4 +1,4 @@
-package com.example.darkshop.models;
+package com.example.darkshop.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,8 +29,8 @@ public class Image {
     @Lob
     private byte[] bytes;
 
-/*    @OneToOne(mappedBy = "avatar")
-    private User user;*/
+    /*    @OneToOne(mappedBy = "avatar")
+        private User user;*/
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Product product;
 }

@@ -1,20 +1,20 @@
-package com.example.darkshop.services;
+package com.example.darkshop.service;
 
 
-import com.example.darkshop.models.Image;
-import com.example.darkshop.models.User;
-import com.example.darkshop.models.enums.Role;
-import com.example.darkshop.repositories.UserRepository;
+import com.example.darkshop.model.User;
+import com.example.darkshop.model.enums.Role;
+import com.example.darkshop.repositori.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,15 +40,13 @@ public class UserService {
     }
 
     public void banUser(Integer id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            if (user.isActive()) {
-                user.setActive(false);
-                log.info("Ban user with id = {}; email: {}", user.getId(), user.getEmail());
-            } else {
-                user.setActive(true);
-                log.info("Unban user with id = {}; email: {}", user.getId(), user.getEmail());
-            }
+        User user = userRepository.findById(id).orElseThrow();
+        if (user.isActive()) {
+            user.setActive(false);
+            log.info("Ban user with id = {}; email: {}", user.getId(), user.getEmail());
+        } else {
+            user.setActive(true);
+            log.info("Unban user with id = {}; email: {}", user.getId(), user.getEmail());
         }
         userRepository.save(user);
     }
@@ -72,43 +70,53 @@ public class UserService {
     }
 
     public void userDelete(Integer id) {
-        User user = userRepository.findById(id).orElseThrow(null);
-        if (user != null) {
-            userRepository.delete(user);
-            log.info("Delete user with id = {}; email: {}", user.getId(), user.getEmail());
-        }else {
-            userRepository.delete(null);
-            log.info("Delete user with id = {}; email: {}", user.getId(), user.getEmail());
-        }
+        User user = userRepository.findById(id).orElseThrow();
+        userRepository.delete(user);
+        log.info("Delete user with id = {}; email: {}", user.getId(), user.getEmail());
     }
-    public void updateUser(User user , Integer id){
-        User userFindId = userRepository.findById(id).orElseThrow(null);
-        if (user.getName().length() != 0){
+
+    public void userNameSubstitution(User user, Integer id) {
+        User userFindId = userRepository.findById(id).orElseThrow();
+        if (user.getName().length() != 0) {
             userFindId.setName(user.getName());
-        }else {
+        } else {
             userFindId.setName(userFindId.getName());
         }
+    }
 
-        if (user.getEmail().length() != 0){
+    public void userEmailSubstitution(User user, Integer id) {
+        User userFindId = userRepository.findById(id).orElseThrow();
+        if (user.getEmail().length() != 0) {
             userFindId.setEmail(user.getEmail());
-        }else {
+        } else {
             userFindId.setEmail(userFindId.getEmail());
         }
+    }
 
-        if (user.getPhoneNumber().length() != 0){
+    public void userPhoneNumberSubstitution(User user, Integer id) {
+        User userFindId = userRepository.findById(id).orElseThrow();
+        if (user.getPhoneNumber().length() != 0) {
             userFindId.setPhoneNumber(user.getPhoneNumber());
-        }else {
+        } else {
             userFindId.setPhoneNumber(userFindId.getPhoneNumber());
         }
+    }
 
-        if (user.getPassword().length() != 0){
+    public void userPasswordSubstitution(User user, Integer id) {
+        User userFindId = userRepository.findById(id).orElseThrow();
+        if (user.getPassword().length() != 0) {
             userFindId.setPassword(passwordEncoder.encode(user.getPassword()));
-        }else {
+        } else {
             userFindId.setPassword(userFindId.getPassword());
         }
-/*           image4 = toImageEntity(file4);
-            userFindId.addImageToUser(image4);
-            System.out.println("2-");*/
+    }
+
+    public void userUpdate(User user, Integer id) {
+        User userFindId = userRepository.findById(id).orElseThrow();
+        userNameSubstitution(user, id);
+        userEmailSubstitution(user, id);
+        userPhoneNumberSubstitution(user, id);
+        userPasswordSubstitution(user, id);
         userFindId.setActive(true);
         userFindId.getRoles().add(Role.ROLE_ADMIN);
         userFindId.setDateOfCreated(LocalDateTime.now());

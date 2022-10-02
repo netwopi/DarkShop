@@ -1,20 +1,15 @@
-package com.example.darkshop.controllers;
+package com.example.darkshop.controller;
 
-import com.example.darkshop.models.User;
-import com.example.darkshop.models.enums.Role;
-import com.example.darkshop.services.UserService;
+import com.example.darkshop.model.User;
+import com.example.darkshop.model.enums.Role;
+import com.example.darkshop.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.type.UUIDBinaryType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,26 +23,27 @@ public class AdminController {
         return "admin";
     }
 
-    @PostMapping("/admin/user/ban/{id}")
+    @GetMapping("/admin/user/ban/{id}")
     public String userBan(@PathVariable("id") Integer id) {
         userService.banUser(id);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/user/edit/{user}")
+    @PutMapping("/admin/user/edit/{user}")
     public String userEdit(@PathVariable("user") User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         return "user-edit";
     }
 
-    @PostMapping("/admin/user/edit")
+    @PutMapping("/admin/user/edit")
     public String userEdit(@RequestParam("userId") User user, @RequestParam Map<String, String> form) {
         userService.changeUserRoles(user, form);
         return "redirect:/admin";
     }
-    @GetMapping ("admin/user/delete/{id}")
-    public String deleteUser(@PathVariable("id")Integer id){
+
+    @DeleteMapping("/admin/user/delete/{id}")
+    public String delete(@PathVariable("id") Integer id) {
         userService.userDelete(id);
         return "redirect:/admin";
     }

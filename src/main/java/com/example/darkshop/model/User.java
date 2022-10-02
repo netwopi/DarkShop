@@ -1,6 +1,6 @@
-package com.example.darkshop.models;
+package com.example.darkshop.model;
 
-import com.example.darkshop.models.enums.Role;
+import com.example.darkshop.model.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +34,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image avatar;*/
 
-    @Column(name = "password", length = 1000)
+    @Column(name = "password", length = 25)
     private String password;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",

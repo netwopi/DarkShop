@@ -1,29 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>DARK_SHOP</title>
     <div th:insert="fragments/bootstrap :: bootstrap"></div>
 </head>
 <body style="background-color: #eef0f3">
 <center>
-<h1>Stolen goods from around the world.</h1>
-    <div class="btn-group" role="group" aria-label="Basic outlined example">
+    <h1 class="display-1">Stolen goods from around the world.</h1>
+    <div class="btn-group btn-group-lg" role="group" aria-label="Large button group">
         <td th:if="${user.email}">
             <form action="/profile" method="get">
-                <input type="submit"  class="btn btn-dark" value="Ваш аккаунт"/>
+                <input type="submit" class="btn btn-dark" value="Ваш аккаунт"/>
             </form>
         </td>
         <td th:if="${user.email}">
             <form action="/logout" method="post">
-                <input type="hidden"  th:name="_csrf" th:value="${_csrf.token}">
-                <input type="submit"  class="btn btn-dark" value="Выйти"/>
+                <input type="hidden" th:name="_csrf" th:value="${_csrf.token}">
+                <input type="submit" class="btn btn-dark" value="Выйти"/>
             </form>
         </td>
         <td th:unless="${user.email}">
             <form action="/login" method="post">
                 <input type="hidden" th:name="_csrf" th:value="${_csrf.token}">
-                <input type="submit"  class="btn btn-dark" value="войти"/>
+                <input type="submit" class="btn btn-dark" value="войти"/>
             </form>
         </td>
     </div>
@@ -32,38 +31,40 @@
     <form class="row g-3">
         <div class="col-auto">
             <label for="staticEmail2" class="visually-hidden">Поиск по названию объявления:</label>
-            <input type="text" readonly class="form-control-plaintext" id="staticEmail2" >
+            <input type="text" readonly class="form-control-plaintext" id="staticEmail2">
         </div>
         <div class="col-auto">
-            <input type="text"  name="searchWord"><br>
+            <input type="text" name="searchWord"><br>
         </div>
         <div class="col-auto">
             <button type="submit" class="btn btn-primary mb-3">Поиск</button>
         </div>
     </form>
 </center>
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="card-columns">
-                        <div th:each="prod : ${products}">
-                            <a th:href="@{'/product/'+ ${prod.id}}" class="product-link">
-                                <div class="card">
-
-                                    <img th:src="@{'/images/'+ ${prod.previewImageId}} "
-                                        class="card-img-top">
-                                    <div class="card-body">
-                                        <td th:text="${prod.title}"></td><br>
-                                        <td th:text="${prod.price}  + руб"></td><br>
-                                    </div>
-                                    <div class="card-footer">
-                                        <td th:text="${prod.city}"></td><br>
-                                    </div>
-                                </div>
-                            </a>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="card-columns">
+            <div th:each="prod : ${products}">
+                <a th:href="@{'/products/'+ ${prod.id}}" class="product-link">
+                    <div class="card">
+                        <img th:src="@{'/images/'+ ${prod.previewImageId}} "
+                             class="card-img-top">
+                        <div class="card-body">
+                            <td th:text="${prod.title}"></td>
+                            <br>
+                            <td th:text="${prod.price}  + руб"></td>
+                            <br>
                         </div>
+                        <div class="card-footer">
+                            <td th:text="${prod.city}"></td>
+                            <br>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
+</div>
 
 </div>
 </body>

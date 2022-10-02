@@ -1,6 +1,6 @@
-package com.example.darkshop.configurations;
+package com.example.darkshop.configuration;
 
-import com.example.darkshop.services.CustomUserDetailsService;
+import com.example.darkshop.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,7 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/product/**", "/images/**", "/registration", "/user/**", "/static/**","/avatar/**")
+                .antMatchers("/", "/product/**", "/products/**", "/images/**",
+                        "/registration", "/user/**", "/static/**", "/avatar/**", "/creat")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
